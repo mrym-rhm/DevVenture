@@ -62,7 +62,6 @@ function animate() {
     }
 
     gameFrame++;
-    khjdfg
 
     // built in method to run a function we pass to it
     requestAnimationFrame(animate);
