@@ -62,7 +62,6 @@ function animate() {
     }
 
     gameFrame++;
-    gameFrame++;
 
     // built in method to run a function we pass to it
     requestAnimationFrame(animate);
