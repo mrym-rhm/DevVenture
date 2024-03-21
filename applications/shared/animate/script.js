@@ -8,8 +8,7 @@ const playerImage = new Image();
 playerImage.src = '../assets/images/shadow_dog.png';
 const spriteWidth = 575;
 const spriteHeight = 523;
-let frameX = 0;
-let frameY = 0;
+let playerState = 'idle';
 // used to slow down animation
 let gameFrame = 0;
 const staggerFrames = 5;
@@ -24,9 +23,50 @@ const animationStates = [
         name: 'jump',
         frames: 7,
     },
+    {
+        name: 'fall',
+        frames: 7,
+    },
+    {
+        name: 'run',
+        frames: 9,
+    },
+    {
+        name: 'dizzy',
+        frames: 11,
+    },
+    {
+        name: 'sit',
+        frames: 5,
+    },
+    {
+        name: 'roll',
+        frames: 7,
+    },
+    {
+        name: 'bite',
+        frames: 7,
+    },
+    {
+        name: 'ko',
+        frames: 12,
+    },
+    {
+        name: 'getHit',
+        frames: 4,
+    },
 ];
+// crete loc object for each state to identify frame position
 animationStates.forEach((state, index) => {
-
+    let frames = {
+        loc: [],
+    };
+    for(let j = 0; j < state.frames; j++) {
+        let positionX = j * spriteWidth;
+        let positionY = index * spriteHeight;
+        frames.loc.push({x: positionX, y: positionY})
+    }
+    spriteAnimations[state.name] = frames;
 })
 
 function animate() {
@@ -34,9 +74,10 @@ function animate() {
 
     // specify what area of canvas we want to clear (here it's all of it)
     ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-    // to make sure position will always a value in rage of [0, 6]
-    let position = Math.floor(gameFrame/staggerFrames) % 6;
-    frameX = spriteWidth * position;
+    // to make sure position will always have a value in range of [0, #frames]
+    let position = Math.floor(gameFrame/staggerFrames) % spriteAnimations[playerState].loc.length;
+    let frameX = spriteWidth * position;
+    let frameY = spriteAnimations[playerState].loc[position].y
 
     /*
     drawImage gets 3, 5 or 9 arguments dependent on how much control you want to have over the image
@@ -49,7 +90,7 @@ function animate() {
     ctx.drawImage(
         playerImage,
         frameX,
-        frameY * spriteWidth,
+        frameY,
         spriteWidth,
         spriteHeight,
         0,
@@ -61,7 +102,6 @@ function animate() {
         else frameX = 0;
     }
 
-    gameFrame++;
     gameFrame++;
 
     // built in method to run a function we pass to it
