@@ -4,7 +4,7 @@ const ctx = canvas.getContext('2d');
 const CANVAS_WIDTH = canvas.width = 800;
 const CANVAS_HEIGHT = canvas.height = 700;
 let gameSpeed = 5;
-let gameFrame = 0;
+// let gameFrame = 0;
 
 // new Image() has the same functionality as document.createElement("img")
 const backgroundLayer1 = new Image();
@@ -42,7 +42,11 @@ class Layer {
     update() {
         // to make sure speed is dynamic
         this.speed = gameSpeed * this.speedModifier;
-        this.x = gameFrame * this.speed % this.width;
+        if(this.x <= -this.width) {
+            this.x = 0;
+        }
+        this.x = this.x - this.speed;
+        // this.x = gameFrame * this.speed % this.width;
     }
 
     // get Layer obj information and draw it on canvas
@@ -66,7 +70,7 @@ function animate() {
         object.update();
         object.draw();
     })
-    gameFrame--;
+    // gameFrame--;
     requestAnimationFrame(animate);
 }
 
