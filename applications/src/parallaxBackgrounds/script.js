@@ -17,6 +17,15 @@ backgroundLayer4.src = '../../assets/images/backgroundLayers/layer-4.png';
 const backgroundLayer5 = new Image();
 backgroundLayer5.src = '../../assets/images/backgroundLayers/layer-5.png';
 
+const slider = document.getElementById('slider');
+slider.value = gameSpeed;
+const showGameSpeed = document.getElementById('showGameSpeed');
+showGameSpeed.innerHTML = gameSpeed;
+slider.addEventListener('change', function (e) {
+    gameSpeed = e.target.value;
+    showGameSpeed.innerHTML = e.target.value;
+})
+
 class Layer {
     constructor(image, speedModifier) {
         this.x= 0;
